@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Marítimo y Geopolítico | Proyecto Integrado</title>
+    
+    <link rel="icon" type="image/png" href="img/logo_uni.png">
+
+    <style>
+        /* =========================================
+           VARIABLES DE DISEÑO (PALETA CORPORATIVA)
+           ========================================= */
+        :root {
+            --color-marino: #002244;    /* Azul Marino Profundo */
+            --color-claro: #00A3E0;     /* Azul Cian/Claro */
+            --color-negro: #1a1a1a;     
+            --color-gris-texto: #444444;
+            --color-fondo: #ffffff;     
+            --color-gris-claro: #f4f6f7;
+            
+            --sombra-card: 0 4px 20px rgba(0, 34, 68, 0.08); 
+            --borde-radio: 8px;         
+        }
+
+        /* =========================================
+           RESET Y CONFIGURACIÓN BÁSICA
+           ========================================= */
+        * { box-sizing: border-box; }
+
+        html {
+            scroll-behavior: smooth; /* Desplazamiento suave */
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Roboto', Helvetica, Arial, sans-serif;
+            background-color: var(--color-gris-claro);
+            color: var(--color-negro);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        /* =========================================
+           ENCABEZADO Y NAVEGACIÓN
+           ========================================= */
+        header {
+            background-color: var(--color-marino);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            padding: 15px;
+            margin: 0;
+        }
+
+        nav a {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            padding: 8px 16px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            border-bottom: 2px solid transparent;
+        }
+
+        nav a:hover {
+            color: #fff;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-bottom-color: var(--color-claro);
+        }
+
+        /* =========================================
+           CONTENEDOR PRINCIPAL Y SECCIONES
+           ========================================= */
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            margin: 40px auto;
+            background: var(--color-fondo);
+            padding: 40px;
+            border-radius: var(--borde-radio);
+            box-shadow: var(--sombra-card);
+            border: 1px solid #e0e0e0;
+        }
+
+        /* Ajuste para que el menú fijo no tape los títulos al hacer click */
+        section {
+            scroll-margin-top: 80px;
+            margin-bottom: 60px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 40px;
+        }
+        
+        section:last-child {
+            border-bottom: none;
+        }
+
+        /* =========================================
+           TIPOGRAFÍA Y TÍTULOS
+           ========================================= */
+        h1 {
+            color: var(--color-marino);
+            margin-top: 0;
+            font-size: 2.2rem;
+            position: relative;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        h1::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background-color: var(--color-claro);
+            margin-top: 8px;
+            border-radius: 2px;
+        }
+
+        h2 {
+            color: var(--color-negro);
+            border-left: 5px solid var(--color-claro);
+            padding-left: 15px;
+            margin-top: 40px;
+            font-size: 1.5rem;
+        }
+
+        h3 {
+            color: var(--color-marino);
+            font-weight: 600;
+        }
+
+        p, li { color: var(--color-gris-texto); }
+
+        /* =========================================
+           IMÁGENES
+           ========================================= */
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: var(--borde-radio);
+            display: block;
+            margin: 25px auto;
+            box-shadow: var(--sombra-card);
+        }
+
+        /* =========================================
+           COMPONENTES ESPECÍFICOS (INFO UNI, EQUIPO, TARJETAS)
+           ========================================= */
+        .university-info { 
+            background-color: #f4f6f7; 
+            padding: 30px; 
+            border-radius: 12px; 
+            margin-bottom: 40px; 
+            border-left: 6px solid var(--color-marino); 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .team-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
+            gap: 20px; 
+            margin-top: 30px; 
+        }
+        
+        .student-card { 
+            background: #fff; 
+            border: 1px solid #ddd; 
+            padding: 20px; 
+            text-align: center; 
+            border-radius: 8px; 
+            border-top: 5px solid var(--color-claro); 
+            transition: transform 0.3s; 
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05); 
+        }
+        
+        .student-card:hover { transform: translateY(-5px); }
+        
+        .student-photo { 
+            width: 120px; height: 120px; 
+            background-color: #ddd; 
+            border-radius: 50%; 
+            margin: 0 auto 15px; 
+            object-fit: cover; 
+            border: 3px solid var(--color-marino); 
+        }
+
+        /* =========================================
+           TABLAS
+           ========================================= */
+        .table-responsive {
+            overflow-x: auto;
+            margin: 20px 0;
+            border-radius: var(--borde-radio);
+            box-shadow: var(--sombra-card);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            min-width: 500px;
+        }
+
+        th {
+            background-color: var(--color-marino);
+            color: white;
+            padding: 15px;
+            text-align: left;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        tr:nth-child(even) td { background-color: #f8f9fa; }
+
+        /* =========================================
+           FORMULARIOS Y COMENTARIOS
+           ========================================= */
+        .form-group { margin-bottom: 20px; }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+            color: var(--color-marino);
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            background-color: #fcfcfc;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-family: inherit;
+        }
+
+        button.btn-enviar {
+            background-color: var(--color-marino);
+            color: white;
+            border: none;
+            padding: 14px 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            border-radius: 6px;
+            font-weight: bold;
+            text-transform: uppercase;
+            width: 100%;
+            transition: background-color 0.3s;
+        }
+
+        button.btn-enviar:hover { background-color: var(--color-claro); }
+
+        .comentario-item {
+            background: #f0f8ff;
+            border-left: 4px solid var(--color-claro);
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 0 6px 6px 0;
+        }
+
+        .stars { color: #ffc107; }
+
+        @media (max-width: 768px) {
+            .container { width: 95%; padding: 20px; }
+            nav ul { flex-direction: column; gap: 5px; }
+            nav a { display: block; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-content" style="max-width: 1000px; margin: 0 auto; padding: 10px 20px;">
+            <nav>
+                <ul>
+                    <li><a href="#nosotros">Nosotros</a></li>
+                    <li><a href="#rutas">Rutas Marítimas</a></li>
+                    <li><a href="#estrecho">Estrecho de Estambul</a></li>
+                    <li><a href="#bocono">Falla de Boconó</a></li>
+                    <li><a href="#comentarios">Comentarios</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+
+        <section id="nosotros">
+            <div class="university-info">
+                <h1>Universidad Politécnica Territorial de Caracas "Mariscal Sucre"</h1>
+                <p><strong>PNF:</strong> Ingeniería en Informática</p>
+                <p><strong>Materia:</strong> Formación Socio Crítica</p>
+                <p><strong>Año:</strong> 2025 | <strong>Trayecto:</strong> II | <strong>Sección:</strong> 702201</p>
+                <hr style="border: 0; border-top: 1px solid #ccc; margin: 15px 0;">
+                <p><small>📍 <strong>Sede Maternidad:</strong> Edificio Federación Campesina, calle sur. Urb. San Martín, Caracas – Venezuela.</small></p>
+                <p><small>📧 <strong>Contacto:</strong> controldeestudiosuptecms@gmail.com</small></p>
+            </div>
+
+            <h2>Nuestro Equipo de Desarrollo</h2>
+            <p>Este proyecto web tiene como finalidad analizar las rutas marítimas internacionales y su impacto geopolítico, con un enfoque técnico en el Estrecho de Estambul.</p>
+
+            <div class="team-grid">
+                <div class="student-card">
+                    <img src="img/yusmelya.png" alt="Yusmely Araque" class="student-photo">
+                    <h3>Yusmely Araque</h3>
+                    <p>Edad: 22 años</p>
+                </div>
+                <div class="student-card">
+                    <img src="img/briant.png" alt="Briant Carrillo" class="student-photo">
+                    <h3>Briant Carrillo</h3>
+                    <p>Edad: 27 años</p>
+                </div>
+                <div class="student-card">
+                    <img src="img/neudelys.jpeg" alt="Neudelys Solano" class="student-photo">
+                    <h3>Neudelys Solano</h3>
+                    <p>Edad: 22 años</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="rutas">
+            <h1>Rutas Marítimas del Comercio Internacional</h1>
+            
+            <img src="img/rutas_maritimas.jpg" 
+                 alt="Mapa Mundial de Rutas Marítimas" 
+                 style="width: 100%; filter: contrast(1.1); margin-bottom: 30px;">
+
+            <h2>La Columna Vertebral de la Economía</h2>
+            <p>Las rutas marítimas son los "corredores" oceánicos por donde circula el <strong>80-90% del comercio mundial</strong>. Funcionan como autopistas invisibles determinadas por las corrientes, la profundidad y la ubicación de puertos estratégicos.</p>
+
+            <h2>Tipos de Carga y Buques</h2>
+            <div class="team-grid" style="margin-bottom: 40px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));">
+                
+                <div class="student-card" style="padding: 15px;">
+                    <img src="img/buque_portacontenedores.webp" 
+                         alt="Buque Portacontenedores" style="height: 150px; object-fit: cover; margin-top: 0;">
+                    <h3 style="margin-top: 10px; font-size: 1.2rem;">Contenedores</h3>
+                    <p style="font-size: 0.9rem;">Transportan bienes de consumo (ropa, electrónica). Base de la economía moderna.</p>
+                </div>
+
+                <div class="student-card" style="padding: 15px;">
+                    <img src="img/buque_tanquero.jpg" 
+                         alt="Buque Tanquero" style="height: 150px; object-fit: cover; margin-top: 0;">
+                    <h3 style="margin-top: 10px; font-size: 1.2rem;">Tanqueros</h3>
+                    <p style="font-size: 0.9rem;">Diseñados para líquidos vitales como petróleo crudo, derivados y gas natural (GNL).</p>
+                </div>
+
+                <div class="student-card" style="padding: 15px;">
+                    <img src="img/buque_granelero.jpg" 
+                         alt="Buque Granelero" style="height: 150px; object-fit: cover; margin-top: 0;">
+                    <h3 style="margin-top: 10px; font-size: 1.2rem;">Graneleros</h3>
+                    <p style="font-size: 0.9rem;">Mueven carga suelta masiva: granos (trigo, maíz), carbón y minerales.</p>
+                </div>
+            </div>
+
+            <h2>Principales Puntos de Estrangulamiento</h2>
+            <p>Son pasos estrechos obligatorios. A continuación, el análisis detallado:</p>
+            
+            <div class="team-grid" style="margin-bottom: 40px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
+                
+                <div class="student-card" style="padding: 20px; text-align: left; border-top: 5px solid #00A3E0;">
+                    <img src="img/canal_panama.jpg" 
+                         alt="Canal de Panamá" style="height: 160px; object-fit: cover; margin-top: 0;">
+                    <h3 style="margin-top: 10px;">🇵🇦 Canal de Panamá</h3>
+                    <ul style="font-size: 0.9rem; padding-left: 20px;">
+                        <li><strong>Posición:</strong> Conecta Atlántico y Pacífico.</li>
+                        <li><strong>Historia:</strong> Inaugurado en 1914. Administrado por EE.UU. hasta 1999.</li>
+                        <li><strong>Actualidad:</strong> La sequía reciente redujo el calado, afectando el tráfico.</li>
+                    </ul>
+                </div>
+
+                <div class="student-card" style="padding: 20px; text-align: left; border-top: 5px solid #00A3E0;">
+                    <img src="img/canal_suez.jpg" 
+                         alt="Canal de Suez" style="height: 160px; object-fit: cover; margin-top: 0;">
+                    <h3 style="margin-top: 10px;">🇪🇬 Canal de Suez</h3>
+                    <ul style="font-size: 0.9rem; padding-left: 20px;">
+                        <li><strong>Posición:</strong> Egipto. Une Europa y Asia sin rodear África.</li>
+                        <li><strong>Tráfico:</strong> ~19.000 buques/año (12% del comercio global).</li>
+                    </ul>
+                </div>
+
+                <div class="student-card" style="padding: 20px; text-align: left; border-top: 5px solid #00A3E0;">
+                    <img src="img/canal_mancha.jpg" 
+                         alt="Canal de la Mancha" style="height: 160px; object-fit: cover; margin-top: 0;">
+                    <h3 style="margin-top: 10px;">🇬🇧/🇫🇷 Canal de la Mancha</h3>
+                    <ul style="font-size: 0.9rem; padding-left: 20px;">
+                        <li><strong>Posición:</strong> Separa Gran Bretaña de Francia.</li>
+                        <li><strong>Récord:</strong> Es la ruta más transitada del mundo (>500 barcos/día).</li>
+                    </ul>
+                </div>
+
+                <div class="student-card" style="padding: 20px; text-align: left; border-top: 5px solid #00A3E0;">
+                    <img src="img/estrecho_gibraltar.jfif" 
+                         alt="Estrecho de Gibraltar" style="height: 160px; object-fit: cover; margin-top: 0;">
+                    <h3 style="margin-top: 10px;">🇪🇸/🇲🇦 Estrecho de Gibraltar</h3>
+                    <ul style="font-size: 0.9rem; padding-left: 20px;">
+                        <li><strong>Posición:</strong> Puerta del Mediterráneo.</li>
+                        <li><strong>Volumen:</strong> ~100.000 buques cruzan anualmente.</li>
+                    </ul>
+                </div>
+
+                <div class="student-card" style="padding: 20px; text-align: left; border-top: 5px solid #00A3E0;">
+                    <img src="img/estrecho_ormuz.jpg" 
+                         alt="Estrecho de Ormuz" style="height: 160px; object-fit: cover; margin-top: 0;">
+                    <h3 style="margin-top: 10px;">🛢️ Estrecho de Ormuz</h3>
+                    <ul style="font-size: 0.9rem; padding-left: 20px;">
+                        <li><strong>Posición:</strong> Golfo Pérsico.</li>
+                        <li><strong>Importancia:</strong> Arteria del petróleo mundial (20% del crudo).</li>
+                    </ul>
+                </div>
+                
+                 <div class="student-card" style="padding: 20px; text-align: left; border-top: 5px solid #00A3E0;">
+                    <img src="img/estrecho_malaca.webp" 
+                         alt="Estrecho de Malaca" style="height: 160px; object-fit: cover; margin-top: 0;">
+                    <h3 style="margin-top: 10px;">🇸🇬 Estrecho de Malaca</h3>
+                    <ul style="font-size: 0.9rem; padding-left: 20px;">
+                        <li><strong>Posición:</strong> Entre Indonesia y Malasia.</li>
+                        <li><strong>Importancia:</strong> Vital para la energía de China y Japón.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div style="background-color: #fff3e6; padding: 25px; border-left: 5px solid var(--color-claro); margin-top: 20px; border-radius: 4px;">
+                <h3>🇻🇪 Venezuela en el Mapa</h3>
+                <p>Como "Puerta del Caribe", Venezuela depende de la estabilidad de <strong>Panamá</strong> (para comerciar con Asia/Pacífico) y del <strong>Atlántico Norte</strong>. Cualquier bloqueo en estas rutas impacta directamente los costos de importación y la exportación de nuestro crudo.</p>
+            </div>
+        </section>
+
+        <section id="estrecho">
+            <h1>Estrecho de Estambul (Bósforo)</h1>
+            <p class="intro">El punto de estrangulamiento más complejo del mundo: geopolítica, guerra y comercio en 30 kilómetros.</p>
+            
+            <img src="img/estrecho_estambul.jpg" 
+                 alt="Vista Satelital del Bósforo" 
+                 style="width: 100%; max-height: 400px; object-fit: cover; border-radius: 8px; margin-bottom: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+
+            <h2>1. Posición Geográfica y Desafíos</h2>
+            <div style="display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 30px;">
+                <div style="flex: 1; min-width: 300px;">
+                    <p>Conecta el <strong>Mar Negro</strong> (norte) con el <strong>Mar de Mármara</strong> (sur). Es la única salida al mundo para países como Rusia, Ucrania y Georgia.</p>
+                    <ul style="background: #f4f6f7; padding: 20px; border-radius: 8px;">
+                        <li><strong>Longitud:</strong> 31 km.</li>
+                        <li><strong>Ancho Mínimo:</strong> 700 metros (Punto Kandilli).</li>
+                        <li><strong>Profundidad:</strong> Varía entre 13 y 110 metros.</li>
+                    </ul>
+                </div>
+                <div style="flex: 1; min-width: 300px; background: #fff3e6; padding: 20px; border-radius: 8px; border-left: 5px solid red;">
+                    <h3>⚠️ Peligro de Navegación</h3>
+                    <p>Sus <strong>12 curvas cerradas</strong> y corrientes superficiales lo hacen letal. Atraviesa una ciudad de <strong>15 millones de habitantes</strong>; un accidente aquí sería una catástrofe humana.</p>
+                </div>
+            </div>
+
+            <h2>2. Carga Estratégica</h2>
+            <div class="team-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); margin-bottom: 30px; gap: 20px;">
+                <div class="student-card" style="padding: 10px; border-top: 5px solid #00A3E0;">
+                    <img src="img/granos_trigo.jpg" 
+                         alt="Granos y Trigo" style="height: 120px; object-fit: cover; margin-top:0;">
+                    <h4>Seguridad Alimentaria</h4>
+                    <p style="font-size: 0.9rem;">Granos y Trigo de Ucrania para el mundo.</p>
+                </div>
+                <div class="student-card" style="padding: 10px; border-top: 5px solid #00A3E0;">
+                    <img src="img/petroleo.webp" 
+                         alt="Petróleo" style="height: 120px; object-fit: cover; margin-top:0;">
+                    <h4>Energía Global</h4>
+                    <p style="font-size: 0.9rem;">Petróleo ruso hacia Europa y Medio Oriente.</p>
+                </div>
+            </div>
+
+            <h2>3. Historia y Conflictos</h2>
+            <div class="team-grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-bottom: 30px;">
+                <div class="student-card" style="padding: 20px; text-align: left; border-top: 5px solid red;">
+                    <h3 style="margin-top: 0; color: var(--color-marino);">📜 Convención de Montreux (1936)</h3>
+                    <p style="font-size: 0.9rem;">Es la "Constitución" del estrecho. Otorga a Turquía el control militar. Permite bloquear buques de guerra si Turquía se siente amenazada.</p>
+                </div>
+                <div class="student-card" style="padding: 20px; text-align: left; border-top: 5px solid red;">
+                    <h3 style="margin-top: 0; color: red;">⚔️ Guerra Rusia-Ucrania</h3>
+                    <p style="font-size: 0.9rem;">Turquía invocó el <strong>Artículo 19</strong> de Montreux, cerrando el paso a buques militares rusos y ucranianos.</p>
+                </div>
+            </div>
+
+            <h2>4. Producción Anual y Datos (2024-2025)</h2>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr style="background-color: var(--color-marino); color: white;">
+                            <th style="padding: 15px;">Indicador</th>
+                            <th style="padding: 15px;">Datos de Investigación</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Tráfico Anual (2024)</strong></td>
+                            <td><strong>41,363 buques</strong> transitaron el estrecho.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Tarifa de Paso (2025)</strong></td>
+                            <td>Aumentó a <strong>$5.83 USD por tonelada</strong>.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Volumen Petrolero</strong></td>
+                            <td>Aprox. 3 millones de barriles diarios.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="bocono">
+            <h1>Falla de Boconó: Riesgo y Geografía</h1>
+            <p class="intro">La estructura tectónica más importante de los Andes venezolanos.</p>
+
+            <img src="img/falla_bocono.jpg" 
+                 alt="Mapa Falla de Boconó" 
+                 style="width: 100%; border: 2px solid var(--color-marino); padding: 5px; background: white; margin-bottom: 30px;">
+            
+            <h2>Perfil Técnico y Tectónico</h2>
+            <div style="display: flex; flex-wrap: wrap; gap: 20px; margin-bottom: 30px;">
+                
+                <div style="flex: 1; min-width: 250px; background: #f4f6f7; padding: 20px; border-radius: 8px;">
+                    <h3 style="margin-top:0; color: var(--color-marino);">Datos Clave</h3>
+                    <ul style="padding-left: 20px;">
+                        <li><strong>Tipo:</strong> Falla de rumbo (desplazamiento lateral derecho).</li>
+                        <li><strong>Placas:</strong> Límite entre Placa Sudamericana y Caribe.</li>
+                        <li><strong>Extensión:</strong> ~500 km (Táchira a Carabobo).</li>
+                    </ul>
+                </div>
+
+                <div style="flex: 1; min-width: 250px; text-align: center;">
+                    <img src="img/bocono.jfif" 
+                         alt="Diagrama Falla de Rumbo" style="width: 100%; max-width: 300px; border-radius: 8px; margin: 0 auto;">
+                    <p style="font-size: 0.8rem; color: #666;">Esquema de Movimiento</p>
+                </div>
+                
+                 <div style="flex: 1; min-width: 250px; text-align: center;">
+                    <img src="img/placa_sudamerica.jpg" 
+                         alt="Placas Tectónicas Sudamérica" style="width: 100%; max-width: 300px; border-radius: 8px; margin: 0 auto;">
+                    <p style="font-size: 0.8rem; color: #666;">Contexto Tectónico Regional</p>
+                </div>
+            </div>
+
+            <h2>La Paradoja Geológica</h2>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr style="background-color: var(--color-marino); color: white;">
+                            <th style="padding: 15px;">Ventaja Geomorfológica</th>
+                            <th style="padding: 15px;">Amenaza Sísmica</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="vertical-align: top;">
+                                Creó los <strong>valles fértiles</strong> y lagunas que permiten la agricultura y el asentamiento de ciudades andinas.
+                            </td>
+                            <td style="vertical-align: top;">
+                                Es la mayor amenaza sísmica del occidente. Causante del <strong>Terremoto de 1894</strong>.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="comentarios">
+            <h1>Zona de Opinión y Debate</h1>
+            
+            <div style="display: flex; gap: 40px; flex-wrap: wrap;">
+                
+                <div style="flex: 1; min-width: 300px;">
+                    <h3>✍️ Dejar un Comentario</h3>
+                    <div class="student-card" style="text-align: left; border-top: none; padding: 25px;">
+                        <form id="commentForm">
+                            <div class="form-group">
+                                <label>Selecciona el Tema:</label>
+                                <select id="origen_tema">
+                                    <option value="general">General (Proyecto)</option>
+                                    <option value="estrecho">Estrecho de Estambul</option>
+                                    <option value="bocono">Falla de Boconó</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Nombre de Usuario:</label>
+                                <input type="text" id="nombre" required placeholder="Ej: Pedro Perez">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Puntuación:</label>
+                                <select id="puntuacion">
+                                    <option value="5">★★★★★ (Excelente)</option>
+                                    <option value="4">★★★★ (Muy Bueno)</option>
+                                    <option value="3">★★★ (Normal)</option>
+                                    <option value="2">★★ (Regular)</option>
+                                    <option value="1">★ (Malo)</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Comentario:</label>
+                                <textarea id="mensaje" rows="4" required placeholder="Escribe aquí tu opinión..."></textarea>
+                            </div>
+
+                            <button type="submit" class="btn-enviar">Publicar Comentario</button>
+                        </form>
+                    </div>
+                </div>
+
+                <div style="flex: 1; min-width: 300px;">
+                    <h3>💬 Últimas Opiniones</h3>
+                    <div id="lista-comentarios" data-tema="general" style="max-height: 600px; overflow-y: auto;">
+                        <p>Cargando opiniones...</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        // URL de la base de datos (SheetDB)
+        const API_URL = 'https://sheetdb.io/api/v1/itgh1zyxesbio';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // 1. CARGAR COMENTARIOS
+            const contenedorLista = document.getElementById('lista-comentarios');
+
+            function cargarComentarios() {
+                contenedorLista.innerHTML = '<p>Actualizando...</p>';
+                fetch(API_URL)
+                .then(response => response.json())
+                .then(data => {
+                    contenedorLista.innerHTML = ''; 
+                    
+                    if(data.length === 0) {
+                        contenedorLista.innerHTML = '<p>Aún no hay comentarios. ¡Sé el primero!</p>';
+                        return;
+                    }
+
+                    // Mostrar los últimos primero (Reverse)
+                    data.reverse().forEach(item => {
+                        const div = document.createElement('div');
+                        div.className = 'comentario-item';
+                        
+                        // Etiqueta del tema seleccionado
+                        let colorTema = '#ccc';
+                        if(item.tema === 'estrecho') colorTema = '#ffcccc'; // Rojo suave
+                        if(item.tema === 'bocono') colorTema = '#ccffcc';   // Verde suave
+                        if(item.tema === 'general') colorTema = '#e6f7ff';  // Azul suave
+
+                        const etiqueta = item.tema ? `<span style="background:${colorTema}; font-size:0.75rem; padding:2px 6px; border-radius:4px; margin-left:8px; text-transform: uppercase; font-weight:bold;">${item.tema}</span>` : '';
+
+                        div.innerHTML = `
+                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:5px;">
+                                <strong>${item.usuario} ${etiqueta}</strong>
+                                <span class="stars">${'★'.repeat(item.puntuacion || 0)}</span>
+                            </div>
+                            <p style="margin: 0; font-size:0.95rem;">${item.comentario}</p>
+                            <small style="color:#888; display:block; margin-top:5px;">Fecha: ${item.fecha}</small>
+                        `;
+                        contenedorLista.appendChild(div);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error cargando:', error);
+                    contenedorLista.innerHTML = '<p>Error de conexión al cargar comentarios.</p>';
+                });
+            }
+
+            // Cargar comentarios al iniciar
+            cargarComentarios();
+
+            // 2. ENVIAR COMENTARIO
+            const formulario = document.getElementById('commentForm');
+
+            if(formulario){
+                formulario.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    
+                    const btn = formulario.querySelector('button');
+                    const temaSeleccionado = document.getElementById('origen_tema').value;
+                    
+                    btn.textContent = 'Enviando...';
+                    btn.disabled = true;
+
+                    const datos = {
+                        id: 'INCREMENT',
+                        fecha: new Date().toLocaleDateString(),
+                        usuario: document.getElementById('nombre').value,
+                        puntuacion: document.getElementById('puntuacion').value,
+                        comentario: document.getElementById('mensaje').value,
+                        tema: temaSeleccionado
+                    };
+
+                    fetch(API_URL, {
+                        method: 'POST',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ data: datos })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        alert('¡Gracias! Tu comentario ha sido publicado.');
+                        // Limpiar formulario
+                        document.getElementById('mensaje').value = '';
+                        document.getElementById('nombre').value = '';
+                        btn.textContent = 'Publicar Comentario';
+                        btn.disabled = false;
+                        
+                        // Recargar la lista sin salir de la página
+                        cargarComentarios();
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Hubo un error al guardar. Intenta de nuevo.');
+                        btn.textContent = 'Reintentar';
+                        btn.disabled = false;
+                    });
+                });
+            }
+        });
+    </script>
+</body>
+</html>
